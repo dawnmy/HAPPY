@@ -1,0 +1,25 @@
+name: HiC
+channels:
+  - conda-forge
+  - bioconda
+  - r
+  - defaults
+dependencies:
+  - bcftools
+  - bedtools
+  - biopython
+  - bowtie2
+  - bwa
+  - bzip2
+  - click
+  - cooler
+  - fastp
+  - h5py
+  - hdf5
+  - heapdict
+  - htslib
+  - numpy
+  - pairtools
+  - pandas
+  - samtools
+  - yaml

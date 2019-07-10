@@ -1,0 +1,5 @@
+fq_dir: /vol/projects/dzhiluo/hic/data/reads
+out_dir: /vol/projects/dzhiluo/hic/outputs
+ref_genome: /vol/projects/dzhiluo/hic/ref/GRCh38.fasta
+chr_sizes: /vol/projects/dzhiluo/hic/ref/GRCh38.chrom.all.sizes
+restrict_enzyme: MboI
