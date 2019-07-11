@@ -18,7 +18,7 @@ bam_dir = path.join(out_dir, "bam")
 pair_dir = path.join(out_dir, "pair")
 reports_dir = path.join(out_dir, "reports")
 results_dir = path.join(out_dir, "results")
-
+cd = path.dirname(path.abspath(__file__))
 
 samples, = glob_wildcards(fq_dir + "/{sample}_1.fastq.gz")
 
@@ -144,10 +144,11 @@ rule pair_restrict:
         idx = pair_dir + "/{sample}.dedup.frag.noseq.pair.gz.px2"
     threads: 20
     conda: condaenv
+    params: restrict_py = path.join(cd, "bin/add_restrict.py")
     benchmark: reports_dir + "/benchmarks/{sample}.pair.restrcit.txt"
     shell:
         """
-        pairtools restrict -f {input.frag} --nproc-in {threads} --nproc-out {threads} -o {output} {input.pair}
+        python {params.restrict_py} -f {input.frag} -t {threads} {input.pair} | pbgzip -n {threads} -c > {output.pair}
         pairix -p pairs {output.pair}
         """
 
