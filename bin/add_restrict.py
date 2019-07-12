@@ -128,14 +128,57 @@ def add_restrict_frag(pairs_path, frags, output, **kwargs):
         cols += [str(rfrag_idx1), str(rfrag_start1), str(rfrag_end1)]
         cols += [str(rfrag_idx2), str(rfrag_start2), str(rfrag_end2)]
         outstream.write("\t".join(cols) + "\n")
-    instream.close()
-    outstream.close()
+    if pairs_path:
+        instream.close()
+    if output:
+        outstream.close()
+
+
+# runtime 648.88s user 1227.64s system 714% cpu 4:22.76 total
+def bsearch(left, right, target, nums):
+    p = (left + right) // 2
+    if target < nums[0]:
+        return 0
+    elif target >= nums[-1]:
+        return len(nums)
+    elif target == nums[p]:
+        return p + 1
+    elif (target < nums[p] and target > nums[p - 1]):
+        return p
+    elif (target > nums[p] and target < nums[p + 1]):
+        return p + 1
+    elif target > nums[p]:
+        return bsearch(p, right, target, nums)
+    else:
+        return bsearch(left, p, target, nums)
+
+
+# runtime 557.13s user 1059.06s system 704% cpu 3:49.51 total
+def binsearch(sort_list, val):
+    low = 0
+    high = len(sort_list)
+    while True:
+        mid = (low + high) // 2
+        if val >= sort_list[-1]:
+            return high
+        elif val < sort_list[0]:
+            return 0
+        elif (sort_list[mid] > val and sort_list[mid - 1] <= val):
+            return mid
+        elif sort_list[mid] > val and sort_list[mid - 1] > val:
+            high = mid
+        else:
+            low = mid
 
 
 def locate_frag(rfrags_dict, chrom, pos):
     rfrags_list = rfrags_dict[chrom]
+    # runtime 1025.49s user 2132.81s system 687% cpu 7:39.58 total
     # idx = np.searchsorted(rfrags_list, pos, side='right')
-    idx = bisect.bisect_right(rfrags_list, pos)
+    # runtime 562.33s user 1075.73s system 671% cpu 4:04.09 total
+    # idx = bisect.bisect_right(rfrags_list, pos)
+    #idx = bsearch(0, len(rfrags_list), pos, rfrags_list)
+    idx = binsearch(rfrags_list, pos)
     if idx == 0:
         return 0, 0, rfrags_list[0]
     else:
