@@ -50,3 +50,5 @@ If you use SGE submission system:
 ```shell
 snakemake -s runHiC.smk --use-conda -c "qsub -cwd -pe multislot {threads} -i /dev/null -v PATH" -j 2
 ```
+
+[![Analytics](https://ga-beacon.appspot.com/UA-143797667-1/HAPPY/readme)](https://github.com/igrigorik/ga-beacon)
