@@ -254,14 +254,15 @@ rule cooler:
     output:
         idx = pair_dir + "/{sample}.dedup.frag.filtered.pair.gz.px2",
         cool = results_dir + "/{sample}.dedup.frag.filtered.cool"
+    params: resolution = 1000
     threads: 20
     conda: condaenv
     benchmark: reports_dir + "/benchmarks/{sample}.pair.cooler.txt"
     shell:
         """
         pairix -p pairs {input.pair}
-        #cooler cload pairs --assembly hg38 -c1 2 -p1 3 -c2 4 -p2 5 {input.chr_sizes}:1 {input.pair} {output.cool}
-        cooler cload pairix --assembly hg38 -p {threads} -s 20 {input.chr_sizes}:1 {input.pair} {output.cool}
+        #cooler cload pairs --assembly hg38 -c1 2 -p1 3 -c2 4 -p2 5 {input.chr_sizes}:{params.resolution} {input.pair} {output.cool}
+        cooler cload pairix --assembly hg38 -p {threads} -s 20 {input.chr_sizes}:{params.resolution} {input.pair} {output.cool}
         """
 
 # bin the contact into different resolutions and generate .mcool for visualizing
