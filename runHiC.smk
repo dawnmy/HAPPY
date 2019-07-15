@@ -22,7 +22,7 @@ cd = path.dirname(path.abspath(__file__))
 
 samples, = glob_wildcards(fq_dir + "/{sample}_1.fastq.gz")
 
-# Define the wildcard for sample name
+# Define the wildcard constraints for sample name to avoid ambiguous matching
 wildcard_constraints:
     sample = "[^\.\/]+"
 
@@ -40,20 +40,21 @@ rule all:
             results_dir + "/{sample}.dedup.frag.filtered.mcool", sample=samples)
 
 # pairtools (v0.3.0) should be installed manualy instead of using conda (v0.2.2)
-rule install_pairtools:
-    input:
-        fq_dir + samples[0] + "_1.fastq.gz"
-    output:
-        touch("pairtools.installed")
-    conda: condaenv
-    shell:
-        """
-        conda uninstall pairtools -y
-        wget https://github.com/mirnylab/pairtools/archive/v0.3.0.tar.gz -O pairtools-0.3.0.tar.gz
-        tar zvxf pairtools-0.3.0.tar.gz
-        pip uninstall pairtools -y
-        python pairtools-0.3.0/setup.py install
-        """
+# !Update pairtools has been updated to 0.3.0 in conda, so this is no longer necessary
+# rule install_pairtools:
+#     input:
+#         fq_dir + samples[0] + "_1.fastq.gz"
+#     output:
+#         touch("pairtools.installed")
+#     conda: condaenv
+#     shell:
+#         """
+#         conda uninstall pairtools -y
+#         wget https://github.com/mirnylab/pairtools/archive/v0.3.0.tar.gz -O pairtools-0.3.0.tar.gz
+#         tar zvxf pairtools-0.3.0.tar.gz
+#         pip uninstall pairtools -y
+#         python pairtools-0.3.0/setup.py install
+#         """
 
 # Quality control
 rule fastp:
@@ -91,8 +92,7 @@ rule bwa:
 rule pair_sort:
     input:
         bam = rules.bwa.output,
-        chr_sizes = chr_sizes,
-        pairtools_installed = rules.install_pairtools.output
+        chr_sizes = chr_sizes
     output: pair_dir + "/{sample}.noseq.pair.gz"
     threads: 20
     conda: condaenv
