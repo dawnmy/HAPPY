@@ -207,7 +207,7 @@ rule pair_filter:
 
             return header, instream
 
-        def filer_pair(input, output, **kwargs):
+        def filter_pair(input, output, **kwargs):
             instream = read_pairs(input,
                                   nproc=kwargs.get('threads', 3))
 
@@ -243,7 +243,7 @@ rule pair_filter:
             instream.close()
             outstream.close()
         # ! input and output are specific object not str thus need to be converted to str
-        filer_pair(str(input), str(output), threads=threads)
+        filter_pair(str(input), str(output), threads=threads)
 
 
 # Convert the pair file into .cool, and create index to accelarate the processing
