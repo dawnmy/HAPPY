@@ -1,5 +1,5 @@
 # HAPPY
-Hi-C data Analysis and Processing PIpeline (HAPPY)
+Hi-C data Analysis and Processing PIpeline (HAPPY). This software outputs the contact matrix with different bin sizes (resolutions): 1k, 5k, 10k, 50k, 100k.
 
 ## Requirement
 
@@ -23,7 +23,7 @@ git clone git@github.com:dawnmy/HAPPY.git
 ## Usage
 
 1. Adapt the config file for the pipeline
-Modify the `config/config.yaml` file in the program folder to adapt to your data location
+Modify the `config/config.yaml` file in the program folder to adapt to your data location.
 
 2. Download the reference genome and create BWA index and fasta index (`.fai`). 
 For instance GRCh38 for homo sapiens:
