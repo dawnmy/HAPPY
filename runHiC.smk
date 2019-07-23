@@ -158,7 +158,6 @@ rule pair_filter:
     input: rules.pair_restrict.output.pair
     output: pair_dir + "/{sample}.dedup.frag.filtered.pair.gz"
     threads: 20
-    params: restrict_py = path.join(cd, "bin/add_restrict.py")
     benchmark: reports_dir + "/benchmarks/{sample}.pair.filter.txt"
     run:
         import pipes
