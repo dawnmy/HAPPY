@@ -18,7 +18,7 @@ bam_dir = path.join(out_dir, "bam")
 pair_dir = path.join(out_dir, "pair")
 reports_dir = path.join(out_dir, "reports")
 results_dir = path.join(out_dir, "results")
-cd = path.dirname(path.abspath(__file__))
+cd = path.dirname(path.abspath(__name__))
 
 samples, = glob_wildcards(fq_dir + "/{sample}_1.fastq.gz")
 
